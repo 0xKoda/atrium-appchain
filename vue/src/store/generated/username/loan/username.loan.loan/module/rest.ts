@@ -21,6 +21,8 @@ export interface LoanLoan {
   lender?: string;
 }
 
+export type LoanMsgApproveLoanResponse = object;
+
 export type LoanMsgApproveResponse = object;
 
 export type LoanMsgCancelResponse = object;

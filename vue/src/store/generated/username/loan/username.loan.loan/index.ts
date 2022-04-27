@@ -199,6 +199,21 @@ export default {
 		},
 		
 		
+		async sendMsgApprove({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgApprove(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgApprove:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgApprove:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
 		async sendMsgCancel({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -211,6 +226,21 @@ export default {
 					throw new Error('TxClient:MsgCancel:Init Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new Error('TxClient:MsgCancel:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgApproveLoan({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgApproveLoan(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgApproveLoan:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgApproveLoan:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -244,21 +274,6 @@ export default {
 				}
 			}
 		},
-		async sendMsgLiquidate({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgLiquidate(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgLiquidate:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgLiquidate:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
 		async sendMsgRequest({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -274,22 +289,35 @@ export default {
 				}
 			}
 		},
-		async sendMsgApprove({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgLiquidate({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgApprove(value)
+				const msg = await txClient.msgLiquidate(value)
 				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgApprove:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgLiquidate:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgApprove:Send Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgLiquidate:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
 		
+		async MsgApprove({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgApprove(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgApprove:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgApprove:Create Could not create message: ' + e.message)
+				}
+			}
+		},
 		async MsgCancel({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -300,6 +328,19 @@ export default {
 					throw new Error('TxClient:MsgCancel:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgCancel:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgApproveLoan({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgApproveLoan(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgApproveLoan:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgApproveLoan:Create Could not create message: ' + e.message)
 				}
 			}
 		},
@@ -329,19 +370,6 @@ export default {
 				}
 			}
 		},
-		async MsgLiquidate({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgLiquidate(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgLiquidate:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgLiquidate:Create Could not create message: ' + e.message)
-				}
-			}
-		},
 		async MsgRequest({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -355,16 +383,16 @@ export default {
 				}
 			}
 		},
-		async MsgApprove({ rootGetters }, { value }) {
+		async MsgLiquidate({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgApprove(value)
+				const msg = await txClient.msgLiquidate(value)
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgApprove:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgLiquidate:Init Could not initialize signing client. Wallet is required.')
 				} else{
-					throw new Error('TxClient:MsgApprove:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgLiquidate:Create Could not create message: ' + e.message)
 				}
 			}
 		},

@@ -13,6 +13,7 @@ service Msg {
   rpc Liquidate(MsgLiquidate) returns (MsgLiquidateResponse);
   rpc Cancel(MsgCancel) returns (MsgCancelResponse);
   rpc RequestLoan(MsgRequestLoan) returns (MsgRequestLoanResponse);
+  rpc ApproveLoan(MsgApproveLoan) returns (MsgApproveLoanResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -65,6 +66,14 @@ message MsgRequestLoan {
 }
 
 message MsgRequestLoanResponse {
+}
+
+message MsgApproveLoan {
+  string creator = 1;
+  uint64 id = 2;
+}
+
+message MsgApproveLoanResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

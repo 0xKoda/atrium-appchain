@@ -67,4 +67,3 @@ func (msg *MsgRequestLoan) ValidateBasic() error {
 	}
 	return nil
 }
-
