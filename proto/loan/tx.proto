@@ -7,7 +7,64 @@ option go_package = "github.com/username/loan/x/loan/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+      rpc Request(MsgRequest) returns (MsgRequestResponse);
+  rpc Approve(MsgApprove) returns (MsgApproveResponse);
+  rpc Repay(MsgRepay) returns (MsgRepayResponse);
+  rpc Liquidate(MsgLiquidate) returns (MsgLiquidateResponse);
+  rpc Cancel(MsgCancel) returns (MsgCancelResponse);
+  rpc RequestLoan(MsgRequestLoan) returns (MsgRequestLoanResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgRequest {
+  string creator = 1;
+  string loan = 2;
+}
+
+message MsgRequestResponse {
+}
+
+message MsgApprove {
+  string creator = 1;
+  string loan = 2;
+}
+
+message MsgApproveResponse {
+}
+
+message MsgRepay {
+  string creator = 1;
+  string loan = 2;
+}
+
+message MsgRepayResponse {
+}
+
+message MsgLiquidate {
+  string creator = 1;
+  string loan = 2;
+}
+
+message MsgLiquidateResponse {
+}
+
+message MsgCancel {
+  string creator = 1;
+  string loan = 2;
+}
+
+message MsgCancelResponse {
+}
+
+message MsgRequestLoan {
+  string creator = 1;
+  string amount = 2;
+  string fee = 3;
+  string collateral = 4;
+  string deadline = 5;
+}
+
+message MsgRequestLoanResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

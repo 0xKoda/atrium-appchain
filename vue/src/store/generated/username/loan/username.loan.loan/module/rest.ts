@@ -21,6 +21,18 @@ export interface LoanLoan {
   lender?: string;
 }
 
+export type LoanMsgApproveResponse = object;
+
+export type LoanMsgCancelResponse = object;
+
+export type LoanMsgLiquidateResponse = object;
+
+export type LoanMsgRepayResponse = object;
+
+export type LoanMsgRequestLoanResponse = object;
+
+export type LoanMsgRequestResponse = object;
+
 /**
  * Params defines the parameters for the module.
  */
